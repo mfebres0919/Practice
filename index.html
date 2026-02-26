@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Luxine — Residential Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{
+  background:#f5f0e8;
+  color:#1a1a1a;
+  font-family:'Jost',sans-serif;
+  font-weight:400;
+  overflow-x:hidden;
+}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%;object-fit:cover}
+button{font-family:'Jost',sans-serif;cursor:pointer;border:none;background:none}
+input{font-family:'Jost',sans-serif}
+
+:root{
+  --cream:#f5f0e8;
+  --olive:#8a7d55;
+  --olive-dark:#6b6040;
+  --olive-light:#b8aa80;
+  --dark:#1a1a18;
+  --dark2:#2c2c28;
+  --text:#3a3a36;
+  --muted:#888880;
+  --border:#ddd8cc;
+  --r:6px;
+}
+
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:var(--cream)}
+::-webkit-scrollbar-thumb{background:var(--olive);border-radius:2px}
+
+/* ===================== TOP BAR ===================== */
+.topbar{
+  background:var(--olive-dark);
+  padding:.55rem 3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  font-size:.78rem;color:rgba(255,255,255,.75);letter-spacing:.5px;
+}
+.topbar-left,.topbar-right{display:flex;align-items:center;gap:1.5rem}
+.topbar a{color:rgba(255,255,255,.75);display:flex;align-items:center;gap:.4rem;transition:color .2s}
+.topbar a:hover{color:#fff}
+
+/* ===================== NAVBAR ===================== */
+.navbar{
+  background:#fff;
+  padding:0 3rem;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 1px 0 var(--border);
+  height:72px;
+}
+.nav-logo{
+  display:flex;align-items:center;gap:.7rem;
+  font-family:'Playfair Display',serif;
+  font-size:1.3rem;font-weight:600;color:var(--dark);
+}
+.nav-logo-icon{
+  width:36px;height:36px;
+  background:var(--olive);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.nav-logo-icon img{width:100%;height:100%;object-fit:cover}
+.nav-links{display:flex;align-items:center;list-style:none}
+.nav-links a{
+  display:flex;align-items:center;gap:.25rem;
+  padding:.5rem 1.1rem;
+  font-size:.82rem;font-weight:500;letter-spacing:.5px;
+  text-transform:uppercase;color:var(--text);transition:color .2s;
+}
+.nav-links a:hover{color:var(--olive)}
+.dropdown-arrow{font-size:.6rem;opacity:.5}
+.nav-cta-btn{
+  background:var(--dark);color:#fff;
+  font-size:.78rem;font-weight:500;letter-spacing:1px;text-transform:uppercase;
+  padding:.65rem 1.5rem;border-radius:4px;
+  display:flex;align-items:center;gap:.5rem;transition:background .2s;
+}
+.nav-cta-btn:hover{background:var(--olive)}
+.hamburger{display:none;flex-direction:column;gap:5px;width:24px;cursor:pointer}
+.hamburger span{display:block;height:1.5px;background:var(--dark)}
+
+/* ===================== PAGE BANNER ===================== */
+.page-banner{
+  position:relative;height:380px;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.page-banner-bg{
+  position:absolute;inset:0;
+  background:linear-gradient(rgba(20,18,15,.52),rgba(20,18,15,.62));
+  z-index:1;
+}
+.page-banner-photo{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:cover;object-position:center;
+}
+.page-banner-content{
+  position:relative;z-index:2;
+  text-align:center;
+}
+.page-banner h1{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2.2rem,6vw,4rem);
+  font-weight:400;letter-spacing:6px;
+  text-transform:uppercase;color:#fff;
+  margin-bottom:.9rem;
+}
+.breadcrumb{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  font-size:.8rem;color:rgba(255,255,255,.65);letter-spacing:.5px;
+}
+.breadcrumb a{color:rgba(255,255,255,.65);transition:color .2s}
+.breadcrumb a:hover{color:var(--olive-light)}
+.breadcrumb-sep{opacity:.4}
+
+/* ===================== MARQUEE ===================== */
+.marquee-strip{background:var(--dark);padding:.85rem 0;overflow:hidden}
+.marquee-track{
+  display:flex;animation:marquee 28s linear infinite;white-space:nowrap;
+}
+.marquee-item{
+  display:flex;align-items:center;gap:.8rem;
+  padding:0 2.5rem;
+  font-size:.78rem;font-weight:500;letter-spacing:3px;
+  text-transform:uppercase;color:rgba(255,255,255,.7);
+  flex-shrink:0;border-right:1px solid rgba(255,255,255,.1);
+}
+.marquee-star{color:var(--olive-light);display:flex;align-items:center}
+.marquee-star svg{width:14px;height:14px;stroke:var(--olive-light);stroke-width:2}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ===================== MAIN LAYOUT ===================== */
+.main-layout{
+  max-width:1200px;margin:0 auto;
+  padding:5rem 3rem 4rem;
+  display:grid;
+  grid-template-columns:300px 1fr;
+  gap:3rem;
+  align-items:start;
+}
+
+/* ===================== SIDEBAR — STICKY ON DESKTOP ===================== */
+.sidebar{
+  position:sticky;
+  top:88px;
+  align-self:start;
+  max-height:calc(100vh - 100px);
+  overflow-y:auto;
+  scrollbar-width:none;
+}
+.sidebar::-webkit-scrollbar{display:none}
+
+.sidebar-services{
+  background:#fff;border-radius:var(--r);overflow:hidden;
+  margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.06);
+}
+.sidebar-services-header{
+  background:var(--olive);padding:1.1rem 1.5rem;
+  font-size:.88rem;font-weight:600;letter-spacing:.5px;color:#fff;
+}
+.sidebar-services ul{list-style:none}
+.sidebar-services ul li{border-bottom:1px solid var(--border)}
+.sidebar-services ul li:last-child{border-bottom:none}
+.sidebar-services ul li a{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1rem 1.5rem;font-size:.85rem;color:var(--text);transition:all .2s;
+}
+.sidebar-services ul li a:hover,
+.sidebar-services ul li.active a{color:var(--olive);background:rgba(138,125,85,.04)}
+.sidebar-services ul li.active a{font-weight:600}
+.sidebar-arrow{font-size:.75rem;color:var(--muted);transition:transform .2s}
+.sidebar-services ul li a:hover .sidebar-arrow{transform:translate(2px,-2px);color:var(--olive)}
+
+.sidebar-contact{
+  border-radius:var(--r);overflow:hidden;
+  position:relative;min-height:220px;
+}
+.sidebar-contact-photo{
+  position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+}
+.sidebar-contact-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(20,18,15,.82),rgba(106,96,64,.75));
+  z-index:1;
+}
+.sidebar-contact-content{
+  position:relative;z-index:2;padding:2rem 1.5rem;
+}
+.sidebar-contact-icon{
+  width:32px;height:32px;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;margin-bottom:1rem;
+}
+.sidebar-contact-icon svg{width:26px;height:26px;stroke:#fff;stroke-width:1.5}
+.sidebar-contact h4{
+  font-family:'Playfair Display',serif;
+  font-size:1.1rem;font-weight:600;color:#fff;margin-bottom:.5rem;
+}
+.sidebar-contact p{font-size:.8rem;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:.8rem}
+.sidebar-contact-tel{font-size:.85rem;font-weight:600;color:var(--olive-light);letter-spacing:.5px}
+
+/* ===================== CONTENT AREA ===================== */
+.content-main-img{
+  width:100%;border-radius:var(--r);
+  overflow:hidden;margin-bottom:2rem;
+  position:relative;
+}
+.content-main-img-inner{
+  display:grid;grid-template-columns:1fr 1fr;
+  height:340px;
+}
+.img-panel-left img,
+.img-panel-right img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .6s ease;
+}
+.img-panel-left{overflow:hidden}
+.img-panel-right{overflow:hidden;border-left:3px solid var(--cream)}
+.content-main-img:hover .img-panel-left img,
+.content-main-img:hover .img-panel-right img{transform:scale(1.04)}
+.img-overlay-badge{
+  position:absolute;bottom:1.2rem;right:1.2rem;
+  background:var(--olive);color:#fff;
+  padding:.5rem 1rem;border-radius:4px;
+  font-size:.72rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  z-index:2;
+}
+
+.content-body p{
+  font-size:.95rem;color:var(--text);line-height:1.9;margin-bottom:1.2rem;
+}
+
+/* WHY CHOOSE US */
+.why-section{margin-top:3rem}
+.why-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6rem,3vw,2.2rem);
+  font-weight:400;letter-spacing:2px;text-transform:uppercase;
+  color:var(--dark);margin-bottom:1rem;
+}
+.why-desc{font-size:.92rem;color:var(--muted);line-height:1.8;max-width:580px;margin-bottom:2.5rem}
+.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+
+/* Why item with small photo */
+.why-item-photo{
+  width:100%;height:140px;border-radius:var(--r);
+  overflow:hidden;margin-bottom:1rem;
+}
+.why-item-photo img{width:100%;height:100%;object-fit:cover;transition:transform .4s ease}
+.why-item:hover .why-item-photo img{transform:scale(1.05)}
+
+.why-icon-svg{
+  width:36px;height:36px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:.8rem;
+  color:var(--olive);
+}
+.why-icon-svg svg{width:28px;height:28px;stroke:var(--olive);stroke-width:1.5}
+.why-item-title{font-size:.95rem;font-weight:600;color:var(--dark);margin-bottom:.4rem}
+.why-item-desc{font-size:.85rem;color:var(--muted);line-height:1.7}
+
+/* ===================== PROCESS SECTION ===================== */
+.process-section{margin-top:3.5rem}
+.process-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6rem,3vw,2.2rem);
+  font-weight:400;letter-spacing:2px;text-transform:uppercase;
+  color:var(--dark);margin-bottom:.8rem;
+}
+.process-desc{font-size:.92rem;color:var(--muted);line-height:1.8;max-width:620px;margin-bottom:2.5rem}
+.process-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem;margin-bottom:2.5rem}
+.process-card{
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r);overflow:hidden;
+  transition:box-shadow .3s,transform .3s;
+}
+.process-card:hover{box-shadow:0 8px 30px rgba(0,0,0,.08);transform:translateY(-3px)}
+.process-card-photo{width:100%;height:110px;overflow:hidden}
+.process-card-photo img{width:100%;height:100%;object-fit:cover;transition:transform .5s ease}
+.process-card:hover .process-card-photo img{transform:scale(1.06)}
+.process-card-body{padding:1.4rem}
+.process-card-top{
+  display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1rem;
+}
+.process-icon{
+  width:34px;height:34px;
+  display:flex;align-items:center;justify-content:center;
+  color:var(--olive);
+}
+.process-icon svg{width:26px;height:26px;stroke:var(--olive);stroke-width:1.5}
+.process-num{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;font-weight:600;color:var(--olive-light);opacity:.7;
+}
+.process-card-title{font-size:.95rem;font-weight:600;color:var(--dark);margin-bottom:.4rem}
+.process-card-desc{font-size:.82rem;color:var(--muted);line-height:1.7;margin-bottom:1rem}
+.process-card-point{
+  display:flex;align-items:center;gap:.6rem;font-size:.8rem;color:var(--text);
+}
+.process-card-point::before{
+  content:'';width:5px;height:5px;background:var(--olive);border-radius:50%;flex-shrink:0;
+}
+.process-cta-strip{
+  display:flex;align-items:center;justify-content:center;gap:1rem;
+  padding:1.2rem 2rem;background:#fff;border:1px solid var(--border);
+  border-radius:50px;width:fit-content;margin:0 auto;
+}
+.process-cta-avatars{display:flex}
+.process-cta-avatar{
+  width:36px;height:36px;border-radius:50%;
+  border:2px solid #fff;overflow:hidden;
+  margin-left:-10px;
+}
+.process-cta-avatar:first-child{margin-left:0}
+.process-cta-avatar img{width:100%;height:100%;object-fit:cover}
+.process-cta-text{font-size:.85rem;color:var(--text)}
+.process-cta-link{font-weight:600;color:var(--olive);text-decoration:underline;text-underline-offset:3px}
+
+/* ===================== FAQ SECTION ===================== */
+.faq-section{margin-top:3.5rem;padding-bottom:2rem}
+.faq-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.6rem,3vw,2.2rem);
+  font-weight:400;letter-spacing:2px;text-transform:uppercase;
+  color:var(--dark);margin-bottom:.8rem;
+}
+.faq-desc{font-size:.92rem;color:var(--muted);line-height:1.8;max-width:600px;margin-bottom:2.5rem}
+.faq-list{display:flex;flex-direction:column;gap:.75rem}
+.faq-item{
+  background:#fff;border:1px solid var(--border);
+  border-radius:var(--r);overflow:hidden;transition:border-color .2s;
+}
+.faq-item.open{border-color:var(--olive)}
+.faq-question{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:1.2rem 1.5rem;cursor:pointer;gap:1rem;
+}
+.faq-q-text{font-size:.9rem;font-weight:500;color:var(--dark)}
+.faq-toggle{
+  width:28px;height:28px;border-radius:50%;
+  border:1.5px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  color:var(--muted);font-size:.9rem;flex-shrink:0;transition:all .25s;
+}
+.faq-item.open .faq-toggle{background:var(--olive);border-color:var(--olive);color:#fff;transform:rotate(180deg)}
+.faq-answer{
+  max-height:0;overflow:hidden;
+  transition:max-height .4s ease,padding .3s;
+  font-size:.87rem;color:var(--muted);line-height:1.8;padding:0 1.5rem;
+}
+.faq-item.open .faq-answer{max-height:150px;padding:0 1.5rem 1.3rem}
+
+/* ===================== FOOTER ===================== */
+.site-footer{background:var(--dark);color:rgba(255,255,255,.7)}
+.footer-top{
+  max-width:1200px;margin:0 auto;
+  padding:4rem 3rem 3rem;
+  display:grid;grid-template-columns:1.3fr 1fr 1.2fr 1fr;gap:2.5rem;
+}
+.footer-brand-name{
+  font-family:'Playfair Display',serif;
+  font-size:1.4rem;font-weight:600;color:#fff;margin-bottom:.3rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.footer-brand-icon{
+  width:30px;height:30px;border-radius:50%;overflow:hidden;
+}
+.footer-brand-icon img{width:100%;height:100%;object-fit:cover}
+.footer-brand-desc{font-size:.82rem;line-height:1.8;color:rgba(255,255,255,.5);margin:1rem 0 1.5rem}
+.footer-newsletter-label{font-size:.72rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:.7rem}
+.footer-newsletter-row{display:flex;border:1px solid rgba(255,255,255,.12);border-radius:4px;overflow:hidden}
+.footer-newsletter-row input{flex:1;background:transparent;border:none;color:#fff;padding:.7rem 1rem;font-size:.82rem;outline:none}
+.footer-newsletter-row input::placeholder{color:rgba(255,255,255,.3)}
+.footer-newsletter-btn{
+  width:40px;height:40px;background:var(--olive);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex-shrink:0;transition:background .2s;cursor:pointer;
+}
+.footer-newsletter-btn:hover{background:var(--olive-dark)}
+.footer-col h4{font-size:.75rem;font-weight:600;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,.4);margin-bottom:1.2rem}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:.7rem}
+.footer-col ul li a{font-size:.83rem;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:.5rem;transition:color .2s}
+.footer-col ul li a:hover{color:var(--olive-light)}
+.footer-col-star{color:var(--olive-light);display:flex;align-items:center;flex-shrink:0}
+.footer-col-star svg{width:12px;height:12px;stroke:var(--olive-light);stroke-width:2}
+.footer-contact-item{display:flex;align-items:flex-start;gap:.9rem;margin-bottom:1rem}
+.footer-contact-icon{width:24px;height:24px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.footer-contact-icon svg{width:20px;height:20px;stroke:var(--olive-light);stroke-width:1.5}
+.footer-contact-label{font-size:.72rem;color:rgba(255,255,255,.35);letter-spacing:.5px;text-transform:uppercase;margin-bottom:2px}
+.footer-contact-val{font-size:.87rem;color:rgba(255,255,255,.75);font-weight:500}
+.footer-divider{border:none;border-top:1px solid rgba(255,255,255,.07);margin:0 3rem}
+.footer-bottom{
+  max-width:1200px;margin:0 auto;padding:1.5rem 3rem;
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;
+}
+.footer-copyright{font-size:.78rem;color:rgba(255,255,255,.35)}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{font-size:.78rem;color:rgba(255,255,255,.35);transition:color .2s}
+.footer-links a:hover{color:var(--olive-light)}
+.footer-divider-dot{color:var(--olive-light)}
+
+/* ===================== LUCIDE ICONS — GLOBAL ===================== */
+.why-icon-svg svg,
+.process-icon svg,
+.sidebar-contact-icon svg{
+  width:26px;height:26px;
+  stroke:var(--olive);
+  stroke-width:1.5;
+  fill:none;
+  display:block;
+}
+.sidebar-contact-icon svg{stroke:#fff}
+.footer-contact-icon svg{
+  width:18px;height:18px;
+  stroke:var(--olive-light);
+  stroke-width:1.5;fill:none;display:block;
+}
+.marquee-star svg{
+  width:13px;height:13px;
+  stroke:var(--olive-light);
+  stroke-width:2;fill:none;display:block;
+}
+.footer-col-star svg{
+  width:11px;height:11px;
+  stroke:var(--olive-light);
+  stroke-width:2;fill:none;display:block;
+}
+.topbar a svg{
+  width:13px;height:13px;
+  stroke:rgba(255,255,255,.75);
+  stroke-width:1.8;fill:none;flex-shrink:0;
+}
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .65s ease,transform .65s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-left{opacity:0;transform:translateX(-24px);transition:opacity .65s ease,transform .65s ease}
+.reveal-left.visible{opacity:1;transform:translateX(0)}
+
+/* ===================== MOBILE NAV ===================== */
+.mobile-nav{position:fixed;inset:0;z-index:200;background:#fff;display:flex;flex-direction:column;padding:2rem;opacity:0;pointer-events:none;transition:opacity .3s}
+.mobile-nav.open{opacity:1;pointer-events:all}
+.mobile-nav-close{position:absolute;top:1.2rem;right:1.5rem;font-size:1.5rem;color:var(--muted);cursor:pointer}
+.mobile-nav-links{list-style:none;display:flex;flex-direction:column;gap:0;margin-top:3rem}
+.mobile-nav-links li a{display:block;padding:1rem 0;font-size:1.1rem;font-weight:500;color:var(--dark);border-bottom:1px solid var(--border);transition:color .2s}
+.mobile-nav-links li a:hover{color:var(--olive)}
+
+/* ===================== RESPONSIVE ===================== */
+@media(max-width:1024px){
+  .topbar{padding:.55rem 1.5rem}
+  .navbar{padding:0 1.5rem}
+  .main-layout{grid-template-columns:260px 1fr;gap:2rem;padding:3.5rem 1.5rem 4rem}
+  .sidebar{top:80px}
+  .footer-top{grid-template-columns:1fr 1fr;gap:2rem;padding:3rem 1.5rem 2.5rem}
+  .footer-divider,.footer-bottom{padding-left:1.5rem;padding-right:1.5rem}
+  .nav-links{display:none}
+  .hamburger{display:flex}
+}
+@media(max-width:768px){
+  .topbar{display:none}
+  .navbar{padding:0 1.2rem}
+  .main-layout{grid-template-columns:1fr;padding:2.5rem 1.2rem 3rem}
+  .sidebar{order:2;position:static;max-height:none;overflow-y:visible}
+  .content-area{order:1}
+  .process-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .content-main-img-inner{height:220px}
+  .footer-top{grid-template-columns:1fr;padding:2.5rem 1.2rem 2rem}
+  .footer-divider{margin:0 1.2rem}
+  .footer-bottom{padding:1.2rem;flex-direction:column;text-align:center}
+  .page-banner{height:260px}
+  .page-banner h1{font-size:2rem;letter-spacing:3px}
+}
+@media(max-width:480px){
+  .navbar{height:60px}
+  .nav-logo{font-size:1.1rem}
+  .process-cta-strip{flex-direction:column;text-align:center;border-radius:var(--r)}
+  .content-main-img-inner{grid-template-columns:1fr;height:200px}
+  .img-panel-right{display:none}
+}
+</style>
+</head>
+<body>
+
+<!-- MOBILE NAV -->
+<div class="mobile-nav" id="mobileNav">
+  <span class="mobile-nav-close" onclick="closeMobileNav()">✕</span>
+  <ul class="mobile-nav-links">
+    <li><a href="#">Home</a></li>
+    <li><a href="#">About Us</a></li>
+    <li><a href="#">Services</a></li>
+    <li><a href="#">Blogs</a></li>
+    <li><a href="#">Pages</a></li>
+    <li><a href="#">Contact Us</a></li>
+  </ul>
+</div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <a href="#"><i data-lucide="phone" style="width:13px;height:13px;stroke:rgba(255,255,255,.75);stroke-width:1.8;flex-shrink:0"></i> +(123) 456-789</a>
+    <a href="#"><i data-lucide="mail" style="width:13px;height:13px;stroke:rgba(255,255,255,.75);stroke-width:1.8;flex-shrink:0"></i> info@domainname.com</a>
+  </div>
+  <div class="topbar-right">
+    <a href="#">Instagram</a>
+    <a href="#">Facebook</a>
+    <a href="#">Dribbble</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="nav-logo">
+    <div class="nav-logo-icon">
+      <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=80&q=80" alt="logo"/>
+    </div>
+    Luxine
+  </div>
+  <ul class="nav-links">
+    <li><a href="#">HOME <span class="dropdown-arrow">▼</span></a></li>
+    <li><a href="#">ABOUT US</a></li>
+    <li><a href="#">SERVICES</a></li>
+    <li><a href="#">BLOGS</a></li>
+    <li><a href="#">PAGES <span class="dropdown-arrow">▼</span></a></li>
+    <li><a href="#">CONTACT US</a></li>
+  </ul>
+  <a href="#" class="nav-cta-btn">Contact Us ↗</a>
+  <div class="hamburger" id="hamburger" onclick="openMobileNav()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- PAGE BANNER -->
+<div class="page-banner">
+  <img class="page-banner-photo"
+    src="https://images.unsplash.com/photo-1600210492493-0946911123ea?w=1600&q=85"
+    alt="Luxury residential interior"/>
+  <div class="page-banner-bg"></div>
+  <div class="page-banner-content">
+    <h1>Residential Architecture</h1>
+    <div class="breadcrumb">
+      <a href="#">Home</a>
+      <span class="breadcrumb-sep">/</span>
+      <a href="#">Services</a>
+      <span class="breadcrumb-sep">/</span>
+      <span>Residential Architecture</span>
+    </div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <div class="marquee-item"><span class="marquee-star"><i data-lucide="asterisk"></i></span> Building Design</div>
+    <div class="marquee-item"><span class="marquee-star"><i data-lucide="asterisk"></i></span> Construction</div>
+    <div class="marquee-item"><span class="marquee-star"><i data-lucide="asterisk"></i></span> Renovation &amp; Remodeling</div>
+    <div class="marquee-item"><span class="marquee-star"><i data-lucide="asterisk"></i></span> Commercial Projects</div>
+    <div class="marquee-item"><span class="marquee-star"><i data-lucide="asterisk"></i></span> Interior Styling</div>
+    <div class="marquee-item"><span class="marquee-star"><i data-lucide="asterisk"></i></span> 3D Visualization</div>
+    <div class="marquee-item"><span class="marquee-star"><i data-lucide="asterisk"></i></span> Building Design</div>
+    <div class="marquee-item"><span class="marquee-star"><i data-lucide="asterisk"></i></span> Construction</div>
+    <div class="marquee-item"><span class="marquee-star"><i data-lucide="asterisk"></i></span> Renovation &amp; Remodeling</div>
+    <div class="marquee-item"><span class="marquee-star"><i data-lucide="asterisk"></i></span> Commercial Projects</div>
+    <div class="marquee-item"><span class="marquee-star"><i data-lucide="asterisk"></i></span> Interior Styling</div>
+    <div class="marquee-item"><span class="marquee-star"><i data-lucide="asterisk"></i></span> 3D Visualization</div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+
+  <!-- SIDEBAR (sticky on desktop) -->
+  <aside class="sidebar reveal-left">
+    <div class="sidebar-services">
+      <div class="sidebar-services-header">Explore Our Services</div>
+      <ul>
+        <li><a href="#">Commercial Architecture <span class="sidebar-arrow">↗</span></a></li>
+        <li class="active"><a href="#">Interior Design &amp; Styling <span class="sidebar-arrow">↗</span></a></li>
+        <li><a href="#">Project Management <span class="sidebar-arrow">↗</span></a></li>
+        <li><a href="#">3D Visualization <span class="sidebar-arrow">↗</span></a></li>
+        <li><a href="#">Renovation &amp; Remodeling <span class="sidebar-arrow">↗</span></a></li>
+      </ul>
+    </div>
+
+    <div class="sidebar-contact">
+      <img class="sidebar-contact-photo"
+        src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=600&q=80"
+        alt="Contact us"/>
+      <div class="sidebar-contact-overlay"></div>
+      <div class="sidebar-contact-content">
+        <div class="sidebar-contact-icon"><i data-lucide="phone-call"></i></div>
+        <h4>Contact Us Now!</h4>
+        <p>Have a project in mind or need expert advice on architecture and interior design?</p>
+        <div class="sidebar-contact-tel">Call At: +(123) 456 – 789</div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CONTENT -->
+  <div class="content-area">
+
+    <!-- Main split image -->
+    <div class="content-main-img reveal">
+      <div class="content-main-img-inner">
+        <div class="img-panel-left">
+          <img src="https://images.unsplash.com/photo-1600121848594-d8644e57abab?w=800&q=85"
+               alt="Modern living room interior"/>
+        </div>
+        <div class="img-panel-right">
+          <img src="https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=800&q=85"
+               alt="Luxury bedroom design"/>
+        </div>
+      </div>
+      <div class="img-overlay-badge">Interior Design</div>
+    </div>
+
+    <!-- Body text -->
+    <div class="content-body reveal">
+      <p>We design homes that tell your story. Our Residential Architecture approach is rooted in understanding how you live, what inspires you, and what makes a space feel like 'home.' With a focus on timeless aesthetics, modern functionality.</p>
+      <p>Whether you're building a new space, renovating an existing one, or planning a commercial development, our experts offer strategic direction and professional insight every step of the way.</p>
+    </div>
+
+    <!-- WHY CHOOSE US -->
+    <div class="why-section reveal">
+      <h2 class="why-title">Why Choose Us For Residential</h2>
+      <p class="why-desc">Choosing us for your residential architecture means partnering with a team that truly understands how a home should look, feel, and function. We combine thoughtful design, technical expertise, and personalized service to create homes that perfectly match your lifestyle.</p>
+      <div class="why-grid">
+        <div class="why-item">
+          <div class="why-item-photo">
+            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&q=80" alt="Tailored home design"/>
+          </div>
+          <div class="why-icon-svg"><i data-lucide="home"></i></div>
+          <div class="why-item-title">Tailored Home Designs</div>
+          <p class="why-item-desc">We create homes that truly reflect your lifestyle, preferences, and future needs — ensuring every space feels personal.</p>
+        </div>
+        <div class="why-item">
+          <div class="why-item-photo">
+            <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80" alt="Expert craft and detailing"/>
+          </div>
+          <div class="why-icon-svg"><i data-lucide="gem"></i></div>
+          <div class="why-item-title">Expert Craft &amp; Detailing</div>
+          <p class="why-item-desc">From structural elements to finishing touches, our team delivers exceptional quality with meticulous attention.</p>
+        </div>
+        <div class="why-item">
+          <div class="why-item-photo">
+            <img src="https://images.unsplash.com/photo-1618221381711-42ca8ab6e908?w=600&q=80" alt="Customized planning"/>
+          </div>
+          <div class="why-icon-svg"><i data-lucide="layout-panel-left"></i></div>
+          <div class="why-item-title">Customized Planning</div>
+          <p class="why-item-desc">We manage the entire residential design process, ensuring smooth communication and timely updates.</p>
+        </div>
+        <div class="why-item">
+          <div class="why-item-photo">
+            <img src="https://images.unsplash.com/photo-1556228453-efd6c1ff04f6?w=600&q=80" alt="Sustainable design"/>
+          </div>
+          <div class="why-icon-svg"><i data-lucide="leaf"></i></div>
+          <div class="why-item-title">Sustainable Future Solutions</div>
+          <p class="why-item-desc">Our designs integrate smart planning, energy efficiency, and sustainable materials to create homes.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROCESS -->
+    <div class="process-section reveal">
+      <h2 class="process-title">Our Process</h2>
+      <p class="process-desc">Our process is designed to guide you smoothly from concept to completion. With structured steps, transparent communication, and expert coordination, we ensure your project moves forward efficiently and stress-free.</p>
+
+      <div class="process-grid">
+        <div class="process-card">
+          <div class="process-card-photo">
+            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&q=80" alt="Initial consultation"/>
+          </div>
+          <div class="process-card-body">
+            <div class="process-card-top">
+              <div class="process-icon"><i data-lucide="message-circle"></i></div>
+              <div class="process-num">01.</div>
+            </div>
+            <div class="process-card-title">Initial Consultation</div>
+            <p class="process-card-desc">Understanding your need, style preference, budget.</p>
+            <div class="process-card-point">We understand your vision</div>
+          </div>
+        </div>
+        <div class="process-card">
+          <div class="process-card-photo">
+            <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=600&q=80" alt="Design development"/>
+          </div>
+          <div class="process-card-body">
+            <div class="process-card-top">
+              <div class="process-icon"><i data-lucide="pencil-ruler"></i></div>
+              <div class="process-num">02.</div>
+            </div>
+            <div class="process-card-title">Design Development</div>
+            <p class="process-card-desc">Finalizing detailed drawings, materials, etc.</p>
+            <div class="process-card-point">We develop creative layouts</div>
+          </div>
+        </div>
+        <div class="process-card">
+          <div class="process-card-photo">
+            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&q=80" alt="Execution support"/>
+          </div>
+          <div class="process-card-body">
+            <div class="process-card-top">
+              <div class="process-icon"><i data-lucide="hard-hat"></i></div>
+              <div class="process-num">03.</div>
+            </div>
+            <div class="process-card-title">Execution Support</div>
+            <p class="process-card-desc">Coordinating with contractors and providing design.</p>
+            <div class="process-card-point">We provide realistic support</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="process-cta-strip">
+        <div class="process-cta-avatars">
+          <div class="process-cta-avatar">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=80" alt="team member"/>
+          </div>
+          <div class="process-cta-avatar">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=80" alt="team member"/>
+          </div>
+        </div>
+        <p class="process-cta-text">Let's make something great work together. <a href="#" class="process-cta-link">Get Free Quote</a></p>
+      </div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section reveal">
+      <h2 class="faq-title">Frequently Asked Questions</h2>
+      <p class="faq-desc">Our Frequently Asked Questions section provides quick answers to the most common queries about our services, process, and experience. Explore these insights to better understand how we work.</p>
+
+      <div class="faq-list">
+        <div class="faq-item open">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-q-text">Q1. Can you work with my existing furniture or layout?</span>
+            <span class="faq-toggle">∧</span>
+          </div>
+          <div class="faq-answer">Absolutely. We can incorporate your existing furniture, décor, and layout preferences into the new design to maintain continuity and budget efficiency.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-q-text">Q2. What is the estimated cost for a design project?</span>
+            <span class="faq-toggle">∨</span>
+          </div>
+          <div class="faq-answer">Costs vary based on scope, space size, and material selections. We provide a detailed, transparent quote following your initial consultation — with no hidden fees.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-q-text">Q3. Do you offer both residential and commercial design services?</span>
+            <span class="faq-toggle">∨</span>
+          </div>
+          <div class="faq-answer">Yes. Our team handles both residential and commercial projects, from private homes and apartments to offices, retail, and hospitality spaces.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-q-text">Q4. Will I be involved in selecting materials and finishes?</span>
+            <span class="faq-toggle">∨</span>
+          </div>
+          <div class="faq-answer">Absolutely. Client involvement is central to our process. We present curated selections and welcome your input at every material and finish decision point.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            <span class="faq-q-text">Q5. Can you handle end-to-end execution along with design?</span>
+            <span class="faq-toggle">∨</span>
+          </div>
+          <div class="faq-answer">Yes. We offer full project management services — coordinating all contractors, trades, and deliveries so you receive a complete, finished space with no stress.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /content-area -->
+</div><!-- /main-layout -->
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  <div class="footer-top">
+    <div>
+      <div class="footer-brand-name">
+        <div class="footer-brand-icon">
+          <img src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=80&q=80" alt="Luxine"/>
+        </div>
+        Luxine
+      </div>
+      <p class="footer-brand-desc">We can incorporate your existing furniture, décor, and layout preferences into the new design to create a truly personal space.</p>
+      <div class="footer-newsletter-label">Subscribe for Updates</div>
+      <div class="footer-newsletter-row">
+        <input type="email" placeholder="Enter Email Address*"/>
+        <button class="footer-newsletter-btn">↗</button>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="#"><span class="footer-col-star"><i data-lucide="asterisk"></i></span> Home</a></li>
+        <li><a href="#"><span class="footer-col-star"><i data-lucide="asterisk"></i></span> About us</a></li>
+        <li><a href="#"><span class="footer-col-star"><i data-lucide="asterisk"></i></span> Our Projects</a></li>
+        <li><a href="#"><span class="footer-col-star"><i data-lucide="asterisk"></i></span> Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Our Services</h4>
+      <ul>
+        <li><a href="#"><span class="footer-col-star"><i data-lucide="asterisk"></i></span> 3D Visualization</a></li>
+        <li><a href="#"><span class="footer-col-star"><i data-lucide="asterisk"></i></span> Architectural Planning</a></li>
+        <li><a href="#"><span class="footer-col-star"><i data-lucide="asterisk"></i></span> Residential Interior Design</a></li>
+        <li><a href="#"><span class="footer-col-star"><i data-lucide="asterisk"></i></span> Commercial Interior Design</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Get In Touch</h4>
+      <div class="footer-contact-item">
+        <div class="footer-contact-icon"><i data-lucide="mail"></i></div>
+        <div>
+          <div class="footer-contact-label">E-mail Us</div>
+          <div class="footer-contact-val">info@domainname.com</div>
+        </div>
+      </div>
+      <div class="footer-contact-item">
+        <div class="footer-contact-icon"><i data-lucide="phone"></i></div>
+        <div>
+          <div class="footer-contact-label">Urgent Inquiries</div>
+          <div class="footer-contact-val">+(123)456-789</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr class="footer-divider"/>
+  <div class="footer-bottom">
+    <p class="footer-copyright">Copyright © 2025 All Rights Reserved.</p>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <span class="footer-divider-dot">•</span>
+      <a href="#">Terms &amp; Conditions</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const revealEls = document.querySelectorAll('.reveal,.reveal-left');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); }
+  });
+}, {threshold:.1});
+revealEls.forEach(el => obs.observe(el));
+
+// FAQ toggle
+function toggleFaq(btn){
+  const item = btn.closest('.faq-item');
+  const isOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => {
+    i.classList.remove('open');
+    i.querySelector('.faq-toggle').textContent = '∨';
+  });
+  if(!isOpen){
+    item.classList.add('open');
+    item.querySelector('.faq-toggle').textContent = '∧';
+  }
+}
+
+// Mobile nav
+function openMobileNav(){ document.getElementById('mobileNav').classList.add('open'); }
+function closeMobileNav(){ document.getElementById('mobileNav').classList.remove('open'); }
+
+// Init Lucide icons
+lucide.createIcons();
+</script>
+</body>
+</html>
