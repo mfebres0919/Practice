@@ -1,0 +1,584 @@
+/* ==========================================================================
+   The Fairy Fund — styles.css
+   Homepage-only styles. Shared components live in global.css.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   Hero
+   Phones and tablets: text sits in the open white space at the top of the
+   portrait photo, which is pulled up underneath it.
+   Desktop: the landscape photo fills the section and the text sits in the
+   white space on its left.
+   -------------------------------------------------------------------------- */
+.hero {
+  /* Matches the photos' off-white backdrop so the edges disappear */
+  --hero-ground: #fdfdfd;
+  /* Widest the portrait photo gets before it would make the hero too tall */
+  --hero-photo-max: 34rem;
+  position: relative;
+  display: grid;
+  overflow: hidden;
+  background-color: var(--hero-ground);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  grid-row: 1;
+  padding-top: clamp(2rem, 8vw, 3.5rem);
+  text-align: center;
+}
+
+/* Soft glow of backdrop colour behind the text, so the flying bills in the
+   photo fade out wherever they pass under a line of copy */
+.hero__content::before {
+  content: "";
+  position: absolute;
+  inset: 0 -10% -15%;
+  z-index: -1;
+  background: radial-gradient(
+    ellipse closest-side,
+    var(--hero-ground) 55%,
+    rgba(253, 253, 253, 0)
+  );
+  pointer-events: none;
+}
+
+.hero__media {
+  grid-row: 2;
+  justify-self: center;
+  width: 100%;
+  max-width: var(--hero-photo-max);
+  /* The top ~60% of the photo's width is empty backdrop — slide it up under
+     the text. Kept under that so the text never meets her hair. */
+  margin-top: calc(min(100vw, var(--hero-photo-max)) * -0.5);
+}
+
+.hero__image {
+  width: 100%;
+  height: auto;
+}
+
+.hero__eyebrow {
+  margin-bottom: var(--space-sm);
+  color: var(--clr-primary);
+  font-size: var(--fs-200);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.hero__heading {
+  margin-bottom: var(--space-md);
+  font-size: clamp(2.5rem, 10vw, 3.5rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+/* Olive marker stroke behind the key word: keeps the brand olive prominent
+   while the teal text on top stays readable */
+/* Line break only on desktop, where the heading runs "File With Us / Today!" */
+.hero__break {
+  display: none;
+}
+
+.hero__highlight {
+  background-image: linear-gradient(var(--clr-accent), var(--clr-accent));
+  background-repeat: no-repeat;
+  background-position: 0 90%;
+  background-size: 100% 0.34em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.hero__lead {
+  max-width: 30rem;
+  margin: 0 auto var(--space-lg);
+  color: var(--clr-body);
+  font-size: var(--fs-500);
+  line-height: 1.5;
+}
+
+.hero__actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.hero__actions .btn {
+  box-shadow: 0 10px 24px rgba(0, 42, 50, 0.16);
+}
+
+@media (min-width: 36em) {
+  /* Once the photo stops filling the width, feather its side edges into the
+     backdrop so it doesn't read as a pasted-in rectangle */
+  .hero__media {
+    -webkit-mask-image: linear-gradient(to right, transparent, #000 12%, #000 92%, transparent);
+    mask-image: linear-gradient(to right, transparent, #000 12%, #000 92%, transparent);
+  }
+
+  .hero__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+
+@media (min-width: 64em) {
+  .hero {
+    /* Tracks the photo's own 1916:821 shape, with a floor for short laptops
+       and a ceiling for ultrawide screens */
+    min-height: clamp(30rem, 42.85vw, 46rem);
+  }
+
+  /* Photo and text share one cell */
+  .hero__media,
+  .hero__content {
+    grid-area: 1 / 1;
+  }
+
+  .hero__media {
+    max-width: none;
+    margin-top: 0;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .hero__image {
+    height: 100%;
+    object-fit: cover;
+    /* Crop from the empty left side first so she is never cut off */
+    object-position: right center;
+  }
+
+  .hero__content {
+    align-self: center;
+    padding-block: var(--space-2xl);
+    text-align: left;
+  }
+
+  .hero__content::before {
+    inset: -10% 45% -10% -20%;
+  }
+
+  /* Children, not the container, are capped so the text column lines up
+     with the logo above */
+  .hero__content > * {
+    max-width: min(34rem, 50%);
+  }
+
+  .hero__heading {
+    font-size: clamp(3.25rem, 5vw, 4.75rem);
+  }
+
+  .hero__break {
+    display: inline;
+  }
+
+  .hero__lead {
+    margin-inline: 0;
+  }
+
+  .hero__actions {
+    justify-content: flex-start;
+    max-width: 38rem;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Refund advance popup
+   A native <dialog>, so focus trapping, Escape and the top layer come free.
+   Fades and lifts in once .is-visible is added by javascript/script.js.
+   -------------------------------------------------------------------------- */
+.promo {
+  width: min(28rem, calc(100% - 2rem));
+  margin: auto;
+  padding: var(--space-2xl) var(--space-lg) var(--space-lg);
+  border: 0;
+  border-top: 6px solid var(--clr-accent);
+  border-radius: var(--radius-lg);
+  background-color: var(--clr-primary);
+  color: var(--clr-surface);
+  text-align: center;
+  box-shadow: 0 30px 60px rgba(0, 20, 24, 0.35);
+  opacity: 0;
+  transform: translateY(1rem) scale(0.97);
+  transition: opacity var(--t-slow) var(--ease-out),
+    transform var(--t-slow) var(--ease-out);
+}
+
+.promo:focus-visible {
+  /* script.js focuses the dialog itself on open; Tab moves on from there */
+  outline: none;
+}
+
+.promo::backdrop {
+  background-color: rgba(0, 20, 24, 0.6);
+}
+
+.promo.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.promo__close {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--clr-line-on-dark);
+  border-radius: 50%;
+  background-color: transparent;
+  color: var(--clr-surface);
+  cursor: pointer;
+  transition: background-color var(--t-base) var(--ease-out),
+    border-color var(--t-base) var(--ease-out),
+    transform var(--t-base) var(--ease-out);
+}
+
+.promo__close svg {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.promo__close:hover,
+.promo__close:focus-visible {
+  border-color: var(--clr-accent);
+  background-color: rgba(188, 188, 2, 0.16);
+  transform: rotate(90deg);
+}
+
+.promo__eyebrow {
+  margin-bottom: var(--space-sm);
+  color: var(--clr-accent);
+  font-size: var(--fs-200);
+  font-weight: var(--fw-semibold);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.promo__heading {
+  margin-bottom: var(--space-sm);
+  color: var(--clr-surface);
+  font-size: clamp(1.625rem, 6vw, 2.125rem);
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.promo__amount {
+  color: var(--clr-accent);
+}
+
+.promo__text {
+  margin-bottom: var(--space-lg);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.promo__cta {
+  width: 100%;
+}
+
+.promo__dismiss {
+  margin-top: var(--space-sm);
+  padding: var(--space-xs);
+  border: 0;
+  background: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: var(--fs-200);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  cursor: pointer;
+  transition: color var(--t-base) var(--ease-out);
+}
+
+.promo__dismiss:hover,
+.promo__dismiss:focus-visible {
+  color: var(--clr-surface);
+}
+
+@media (min-width: 36em) {
+  .promo {
+    padding: var(--space-2xl) var(--space-2xl) var(--space-lg);
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Ticker — "Now Accepting New Clients" strip between the hero and services.
+   Pauses on hover; stands still for visitors who ask for reduced motion.
+   -------------------------------------------------------------------------- */
+.ticker {
+  overflow: hidden;
+  background-color: var(--clr-accent);
+  color: var(--clr-primary);
+}
+
+.ticker__viewport {
+  display: flex;
+  /* Fade the ends so words slide in and out rather than being cut off */
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(to right, transparent, #000 6%, #000 94%, transparent);
+}
+
+.ticker__track {
+  display: flex;
+  flex: none;
+  animation: ticker-scroll 40s linear infinite;
+}
+
+.ticker:hover .ticker__track {
+  animation-play-state: paused;
+}
+
+.ticker__group {
+  display: flex;
+  flex: none;
+}
+
+.ticker__item {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 3vw, 2rem);
+  padding-block: clamp(0.875rem, 2vw, 1.25rem);
+  padding-right: clamp(1rem, 3vw, 2rem);
+  font-size: clamp(1rem, 2.4vw, 1.375rem);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ticker__star {
+  width: 1.1em;
+  height: 1.1em;
+  flex: none;
+}
+
+/* One group's width = half the track, so -50% lands exactly where it began */
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* The global reduced-motion rule shortens animations rather than removing
+   them, which would make an infinite loop flicker — so stop this one outright */
+@media (prefers-reduced-motion: reduce) {
+  .ticker__track {
+    animation: none;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Services
+   White cards over a photo darkened by a teal overlay. A card lifts on hover
+   or keyboard focus, and its icon tile and button switch to filled.
+   -------------------------------------------------------------------------- */
+.services {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-color: var(--clr-primary-deep);
+}
+
+.services__bg {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.services__bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Overlay: heavy enough that white text passes contrast over any part of
+   the photo, light enough that she still shows through */
+.services::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 42, 50, 0.94) 0%,
+    rgba(0, 62, 73, 0.86) 55%,
+    rgba(0, 42, 50, 0.95) 100%
+  );
+}
+
+.services__header {
+  max-width: 40rem;
+  margin: 0 auto var(--space-2xl);
+  text-align: center;
+}
+
+.services__eyebrow {
+  margin-bottom: var(--space-sm);
+  color: var(--clr-accent);
+  font-size: var(--fs-200);
+  font-weight: var(--fw-bold);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.services__heading {
+  color: var(--clr-surface);
+  font-size: clamp(2rem, 6vw, 3rem);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+/* Keeps her business name from splitting across lines */
+.services__name {
+  white-space: nowrap;
+}
+
+.services__accent {
+  color: var(--clr-accent);
+}
+
+.services__intro {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: var(--fs-500);
+}
+
+.services__grid {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+.service-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-xl) var(--space-lg) var(--space-lg);
+  border-radius: var(--radius-md);
+  background-color: var(--clr-surface);
+  box-shadow: 0 18px 40px rgba(0, 20, 24, 0.28);
+  transition: transform var(--t-slow) var(--ease-out),
+    box-shadow var(--t-slow) var(--ease-out);
+}
+
+.service-card:hover,
+.service-card:focus-within {
+  transform: translateY(-0.375rem);
+  box-shadow: 0 26px 50px rgba(0, 20, 24, 0.4);
+}
+
+.service-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  margin-bottom: var(--space-lg);
+  border-radius: var(--radius-sm);
+  background-color: rgba(0, 62, 73, 0.07);
+  color: var(--clr-primary);
+  transition: background-color var(--t-slow) var(--ease-out),
+    color var(--t-slow) var(--ease-out);
+}
+
+.service-card__icon svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.service-card:hover .service-card__icon,
+.service-card:focus-within .service-card__icon {
+  background-color: var(--clr-primary);
+  color: var(--clr-accent);
+}
+
+.service-card__title {
+  margin-bottom: var(--space-sm);
+  font-size: 1.25rem;
+  line-height: 1.25;
+}
+
+.service-card__text {
+  color: var(--clr-muted);
+  font-size: var(--fs-300);
+  line-height: 1.6;
+}
+
+.service-card__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  margin-bottom: var(--space-xl);
+}
+
+.service-card__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-xs);
+  color: var(--clr-body);
+  font-size: var(--fs-200);
+  font-weight: var(--fw-semibold);
+  line-height: 1.4;
+}
+
+/* Olive tick box, echoing the checked boxes in the reference */
+.service-card__check-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.125rem;
+  height: 1.125rem;
+  flex: none;
+  margin-top: 0.0625rem;
+  border-radius: 0.25rem;
+  background-color: var(--clr-accent);
+  color: var(--clr-primary);
+}
+
+.service-card__check {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.service-card__cta {
+  justify-content: space-between;
+  width: 100%;
+  /* Pushes the button to the card's foot so buttons line up across a row */
+  margin-top: auto;
+}
+
+/* The whole card counts as hovered, so the button fills with it */
+.service-card:hover .service-card__cta {
+  border-color: var(--clr-primary);
+  color: var(--clr-surface);
+}
+
+.service-card:hover .service-card__cta::before {
+  transform: scaleX(1);
+}
+
+@media (min-width: 48em) {
+  .services__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 72em) {
+  .services__grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+  }
+
+  .service-card {
+    padding-inline: var(--space-lg);
+  }
+}
